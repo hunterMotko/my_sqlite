@@ -1,0 +1,77 @@
+-Test 1-
+request = MySqliteRequest.new
+request = request.from('nba_player_data.csv')
+request = request.select('name')
+request.run
+
+-Test 2-
+request = MySqliteRequest.new
+request = request.from('nba_player_data.csv')
+request = request.select('name')
+request = request.where('college', 'University of California')
+request.run
+
+-Test 3-
+request = MySqliteRequest.new
+request = request.from('nba_player_data.csv')
+request = request.select('name')
+request = request.where('college', 'University of California')
+request = request.where('year_start', '1997')
+request.run
+
+-Test 4-
+request = MySqliteRequest.new
+request = request.insert('nba_player_data.csv')
+request = request.values('name' => 'Alaa Abdelnaby', 'year_start' => '1991', 'year_end' => '1995', 'position' => 'F-C', 'height' => '6-10', 'weight' => '240', 'birth_date' => "June 24, 1968", 'college' => 'Duke University')
+request.run
+
+-Test 5-
+request = MySqliteRequest.new
+request = request.insert('nba_player_data.csv')
+request = request.values('name' => 'Alaa Renamed')
+request = request.where('name', 'Alaa Abdelnaby')
+request.run
+
+-Test 6-
+request = MySqliteRequest.new
+request = request.delete()
+request = request.from('nba_player_data.csv')
+request = request.where('name', 'Alaa Abdelnaby')
+request.run
+
+-Test 7-
+request = MySqliteRequest.new
+request = request.from('nba_player_data_sm.csv')
+request = request.select('*')
+request = request.where('name', 'Cliff Barker')
+request = request.join('nba_players_sm.csv', 'name', 'Player')
+request.run
+
+-Test 8-
+request = MySqliteRequest.new
+request = request.from('nba_player_data_sm.csv')
+request = request.select('*')
+request = request.where('name', 'Cliff Barker')
+request = request.order('year_start', 'ASC')
+request.run
+
+-Test CLI-
+SELECT * FROM players;
+SELECT name, position, college FROM player_data;
+SELECT Player, college FROM players WHERE Player = 'Draymond Green';
+SELECT * FROM player_data WHERE name = 'Matt Costello';
+SELECT Player FROM players WHERE birth_city = 'Saginaw' AND birth_state = 'Michigan';
+SELECT * FROM player_data WHERE name = 'Matt' AND college = 'Michigan';
+
+INSERT INTO player_data VALUES ('John Smith',2011,2012,G,5-11,205,2000,'Jackson College');
+INSERT INTO player_data (name,year_start,position,height,weight,birth_date,college) VALUES ('John Smith',2011,G,5-11,205,2000,'Jackson College');
+INSERT INTO players VALUES ('John Smith', 5-11, 205,'Jackson College', 2000, Naples, Florida);
+INSERT INTO players (Player,height,weight,born,birth_city,birth_state) VALUES ('John Smith',5-11,205,2000,Naples,Florida);
+
+UPDATE players SET born = 'June 21, 2000' WHERE Player = 'John Smith';
+UPDATE players SET born = 'June 21, 2000', birth_city = 'Miami' WHERE Player = 'John Smith';
+UPDATE player_data SET position = 'F' WHERE name = 'John Smith';
+UPDATE player_data SET position = 'F', birth_date = 'June 21, 2000' WHERE name = 'John Smith';
+
+DELETE FROM players WHERE name = 'John Smith';
+DELETE FROM player_data WHERE name = 'John Smith';

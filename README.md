@@ -27,4 +27,3 @@ Not all sql querys available but the basic CRUD functionalites are
 - JOIN
 - ORDER BY
 Are included
-

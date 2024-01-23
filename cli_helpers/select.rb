@@ -1,4 +1,5 @@
 require_relative 'print'
+
 module SelectCli
   def parse_select(arr)
     sel_hash = Hash[*arr.flatten(1)]

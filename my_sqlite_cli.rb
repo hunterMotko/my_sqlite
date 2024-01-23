@@ -1,4 +1,5 @@
 require 'readline'
+
 require_relative 'my_sqlite_request'
 %w[print select insert update delete].each { |f| require_relative "cli_helpers/#{f}" }
 
@@ -29,7 +30,6 @@ class MySqliteQueryCli
 
   def parse(buf)
     parts = buf.split(/(SELECT|INSERT INTO|UPDATE|DELETE FROM|FROM|WHERE|JOIN|ON|SET|VALUES|ORDER BY|;)/)
-
     case parts[1].split.first
     when 'SELECT'
       @action = :select
@@ -67,20 +67,18 @@ class MySqliteQueryCli
   end
 
   def run
-    begin
-      while buf = Readline.readline("> ", true)
-        buf.strip!
-        if buf == 'quit'
-          exit
-        elsif !buf.end_with? ';'
-          puts "You need to end a query with a semicolon!"
-        else
-          check_action(buf)
-        end
+    while buf = Readline.readline('> ', true)
+      buf.strip!
+      if buf == 'quit'
+        exit
+      elsif !buf.end_with? ';'
+        puts 'You need to end a query with a semicolon!'
+      else
+        check_action(buf)
       end
-    rescue Interrupt
-      puts "\n--Goodbye--\n"
     end
+  rescue Interrupt
+    puts "\n--Goodbye--\n"
   end
 end
 
